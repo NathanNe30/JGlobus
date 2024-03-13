@@ -1214,7 +1214,9 @@ done:      do {
 		this.outByteBuff.get(out, 0, out.length);
 		return out;
 	} else
-		return null;
+		{
+		    return null;
+		}
     }
 
     private void setDone() {
