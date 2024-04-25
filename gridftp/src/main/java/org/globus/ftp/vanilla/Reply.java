@@ -15,6 +15,7 @@
  */
 package org.globus.ftp.vanilla;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.globus.ftp.exception.FTPReplyParseException;
 
 import java.io.Serializable;
@@ -68,7 +69,7 @@ public class Reply
 	       EOFException,
 	       IOException {
 	logger.debug( "read 1st line");
-	String line = input.readLine();
+	String line = BoundedLineReader.readLine(input, 5_000_000);
 	if (logger.isDebugEnabled()) {
 	    logger.debug( "1st line: " + line);
 	}
@@ -136,7 +137,7 @@ public class Reply
 	    StringBuffer buf = new StringBuffer(message);
 	    for (;;) {
 		logger.debug( "read line");
-		line = input.readLine();
+		line = BoundedLineReader.readLine(input, 5_000_000);
 
 		//end of stream
 		if (line == null) {

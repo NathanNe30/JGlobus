@@ -14,6 +14,7 @@
  */
 package org.globus.gsi;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.globus.gsi.util.FileUtil;
 import org.globus.gsi.util.PEMUtil;
 
@@ -190,27 +191,27 @@ public abstract class OpenSSLKey implements Serializable {
 
     private String extractKey(BufferedReader in) throws IOException {
         StringBuilder builder = new StringBuilder();
-        String next = in.readLine();
+        String next = BoundedLineReader.readLine(in, 5_000_000);
         while (next != null) {
             if (next.startsWith("-----END")) {
                 break;
             }
             builder.append(next);
-            next = in.readLine();
+            next = BoundedLineReader.readLine(in, 5_000_000);
         }
         return builder.toString();
     }
 
     private String extractEncryptionInfo(BufferedReader in) throws IOException, GeneralSecurityException {
         StringBuilder sb = new StringBuilder();
-        String next = in.readLine();
+        String next = BoundedLineReader.readLine(in, 5_000_000);
         if (next != null && next.startsWith("Proc-Type: 4,ENCRYPTED")) {
             this.isEncrypted = true;
-            next = in.readLine();
+            next = BoundedLineReader.readLine(in, 5_000_000);
             if (next != null) {
                 parseEncryptionInfo(next);
             }
-            in.readLine();
+            BoundedLineReader.readLine(in, 5_000_000);
         } else {
             this.isEncrypted = false;
             sb.append(next);
@@ -219,7 +220,7 @@ public abstract class OpenSSLKey implements Serializable {
     }
 
     private void parseKeyAlgorithm(BufferedReader in) throws IOException, InvalidKeyException {
-        String next = in.readLine();
+        String next = BoundedLineReader.readLine(in, 5_000_000);
         while (next != null) {
             if (next.indexOf("BEGIN PRIVATE KEY") != -1) {
                 keyAlg = "PKCS8";
@@ -228,7 +229,7 @@ public abstract class OpenSSLKey implements Serializable {
                 keyAlg = getKeyAlgorithm(next);
                 break;
             }
-            next = in.readLine();
+            next = BoundedLineReader.readLine(in, 5_000_000);
         }
 
         if (next == null) {

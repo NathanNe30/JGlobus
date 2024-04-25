@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.gridmap;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.util.Map;
 import java.util.Vector;
 import java.util.HashMap;
@@ -195,7 +196,7 @@ public class GridMap implements Serializable {
         QuotedStringTokenizer tokenizer;
         StringTokenizer idTokenizer;
         String line;
-        while( (line = reader.readLine()) != null) {
+        while( (line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             line = line.trim();
             if ( (line.length() == 0) ||
                  ( COMMENT_CHARS.indexOf(line.charAt(0)) != -1) ) {
