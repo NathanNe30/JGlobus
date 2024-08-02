@@ -15,6 +15,7 @@
  */
 package org.globus.ftp;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.BufferedReader;
@@ -117,8 +118,8 @@ public class HostPortList {
         StringBuffer command = null;
         String line = null;
 
-        line = reader.readLine();
-        while( (line = reader.readLine()) != null) {
+        line = BoundedLineReader.readLine(reader, 5_000_000);
+        while( (line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             if (!line.startsWith(" ")) {
                 if (line.startsWith("229")) {
                     break;
