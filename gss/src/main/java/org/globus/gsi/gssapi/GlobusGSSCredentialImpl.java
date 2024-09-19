@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.gssapi;
 
+import java.nio.file.Files;
 import org.globus.util.Util;
 
 import org.ietf.jgss.GSSException;
@@ -189,7 +190,7 @@ public class GlobusGSSCredentialImpl implements ExtendedGSSCredential,
 	    File file = null;
 	    FileOutputStream fout = null;
 	    try {
-		file = File.createTempFile("x509up_", ".tmp");
+		file = Files.createTempFile("x509up_", ".tmp").toFile();
                 Util.setOwnerAccessOnly(file.getAbsolutePath());
 		fout = new FileOutputStream(file);
 		this.cred.save(fout);
