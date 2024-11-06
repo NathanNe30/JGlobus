@@ -14,6 +14,7 @@
  */
 package org.globus.gsi;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.globus.gsi.util.CertificateIOUtil;
 import org.globus.gsi.util.CertificateLoadUtil;
 import org.globus.gsi.util.CertificateUtil;
@@ -180,7 +181,7 @@ public class X509Credential implements Serializable {
     private static byte[] getDecodedPEMObject(BufferedReader reader) throws IOException {
         String line;
         StringBuffer buf = new StringBuffer();
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             if (line.indexOf("--END") != -1) { // found end
                 return Base64.decode(buf.toString().getBytes());
             } else {
@@ -524,7 +525,7 @@ public class X509Credential implements Serializable {
 
         try {
             reader = new BufferedReader(new InputStreamReader(input));
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 
                 if (line.indexOf("BEGIN CERTIFICATE") != -1) {
                     byte[] data = getDecodedPEMObject(reader);
@@ -583,7 +584,7 @@ public class X509Credential implements Serializable {
             }
             reader = new BufferedReader(new InputStreamReader(input));
 
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 
                 if (line.indexOf("BEGIN CERTIFICATE") != -1) {
                     byte[] data = getDecodedPEMObject(reader);

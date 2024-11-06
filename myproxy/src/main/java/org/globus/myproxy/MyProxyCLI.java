@@ -15,6 +15,7 @@
  */
 package org.globus.myproxy;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -553,7 +554,7 @@ public class MyProxyCLI {
         try {
             reader = new BufferedReader(new FileReader( voms_userconf ));
             String line = null;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 if ( isVOMS_USERCONFComment(line) )
                     continue;
                 vomses.add(line);

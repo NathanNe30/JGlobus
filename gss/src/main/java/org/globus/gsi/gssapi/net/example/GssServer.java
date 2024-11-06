@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.gssapi.net.example;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.globus.net.ServerSocketFactory;
 import org.globus.gsi.GSIConstants;
 import org.globus.gsi.gssapi.GlobusGSSCredentialImpl;
@@ -147,7 +148,7 @@ class Client extends Thread {
 
 	    String line = null;
 	    BufferedReader r = new BufferedReader(new InputStreamReader(in));
-	    while ( (line = r.readLine()) != null ) {
+	    while ( (line = BoundedLineReader.readLine(r, 5_000_000)) != null ) {
 		if (line.length() == 0) {
 		    break;
 		}
