@@ -14,6 +14,8 @@
  */
 package org.globus.gsi.jsse;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.globus.gsi.stores.Stores;
@@ -162,7 +164,7 @@ public final class GlobusSSLHelper {
 			}
 			return u.openStream();
 		} else if (url.startsWith("file:")) {
-			URL u = new URL(url);
+			URL u = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			File f;
 			try {
 				f = new File(u.toURI());
@@ -171,7 +173,7 @@ public final class GlobusSSLHelper {
 			}
 			return new FileInputStream(f);
 		} else {
-			return new URL(url).openStream();
+			return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
 		}
 
 	}
