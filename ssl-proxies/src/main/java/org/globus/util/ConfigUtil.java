@@ -14,6 +14,7 @@
  */
 package org.globus.util;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.IOException;
 import java.io.File;
 import java.io.BufferedReader;
@@ -148,7 +149,7 @@ public class ConfigUtil {
         int exitValue = -1;
 
         try {
-            process = runTime.exec(exec + " -u");
+            process = SystemCommand.runCommand(runTime, exec + " -u");
             buffInReader = new BufferedReader
                 ( new InputStreamReader(process.getInputStream()) );
             while ((s = buffInReader.readLine()) != null) {
