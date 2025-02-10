@@ -14,6 +14,7 @@
  */
 package org.globus.gsi;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.globus.gsi.util.CertificateUtil;
 
 import org.apache.commons.logging.LogFactory;
@@ -167,7 +168,7 @@ public class SigningPolicyParser {
         try {
             String line;
 
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null) {
 
                 line = line.trim();
 
@@ -202,11 +203,11 @@ public class SigningPolicyParser {
                              boolean usefulEntry, Boolean posNegRights) throws IOException, SigningPolicyException {
         boolean tmpUsefulEntry = usefulEntry;
         Boolean tmpPosNegRights = posNegRights;
-        String line = bufferedReader.readLine();
+        String line = BoundedLineReader.readLine(bufferedReader, 5_000_000);
         while (line != null) {
 
             if (!isValidLine(line)) {
-                line = bufferedReader.readLine();
+                line = BoundedLineReader.readLine(bufferedReader, 5_000_000);
                 continue;
             }
 
@@ -232,7 +233,7 @@ public class SigningPolicyParser {
                 // String err = i18n.getMessage("invalidLine", line);
                 throw new SigningPolicyException(err + line);
             }
-            line = bufferedReader.readLine();
+            line = BoundedLineReader.readLine(bufferedReader, 5_000_000);
         }
     }
 

@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.commons.logging.Log;
 
 import org.apache.commons.logging.LogFactory;
@@ -206,7 +207,7 @@ public final class CertificateLoadUtil {
         boolean isCert = false;
         boolean isKey = false;
         boolean notNull = false;
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             // Skip key info, if any
             if (line.indexOf("BEGIN RSA PRIVATE KEY") != -1 ||
                  line.indexOf("BEGIN PRIVATE KEY") != -1) {
@@ -257,7 +258,7 @@ public final class CertificateLoadUtil {
         reader = new BufferedReader(new FileReader(file));
 
         try {
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 if (line.indexOf("BEGIN X509 CRL") != -1) {
                     isCrl = true;
                 } else if (isCrl && line.indexOf("END X509 CRL") != -1) {

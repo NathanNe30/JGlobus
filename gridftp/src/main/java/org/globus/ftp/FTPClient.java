@@ -15,6 +15,7 @@
  */
 package org.globus.ftp;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -491,7 +492,7 @@ public class  FTPClient {
         FileInfo fileInfo = null;
         String line = null;
 
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             line = line.trim();
             if (logger.isDebugEnabled()) {
                 logger.debug("line ->" + line);
@@ -591,7 +592,7 @@ public class  FTPClient {
         FileInfo fileInfo = null;
         String line = null;
 
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             if (logger.isDebugEnabled()) {
                 logger.debug("line ->" + line);
             }
@@ -704,7 +705,7 @@ public class  FTPClient {
         MlsxEntry entry = null;
         String line = null;
 
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 
             if (logger.isDebugEnabled()) {
                 logger.debug("line ->" + line);

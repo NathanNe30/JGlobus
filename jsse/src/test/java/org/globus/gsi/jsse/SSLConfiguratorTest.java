@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.jsse;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.assertEquals;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -126,7 +127,7 @@ public class SSLConfiguratorTest {
 					BufferedReader bufferedreader = new BufferedReader(
 							inputstreamreader);
 					String line;
-					while ((line = bufferedreader.readLine()) != null) {
+					while ((line = BoundedLineReader.readLine(bufferedreader, 5_000_000)) != null) {
 						builder.append(line);
 					}
 					assertEquals(builder.toString().trim(), "hello");

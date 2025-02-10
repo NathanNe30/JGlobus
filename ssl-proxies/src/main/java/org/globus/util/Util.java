@@ -14,6 +14,7 @@
  */
 package org.globus.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -175,7 +176,7 @@ public class Util {
         try {
             BufferedReader in =
                 new BufferedReader(new InputStreamReader(System.in));
-            return in.readLine();
+            return BoundedLineReader.readLine(in, 5_000_000);
         } catch(IOException e) {
             return null;
         }
@@ -197,7 +198,7 @@ public class Util {
 
         privateInput.start();
         try {
-            return in.readLine();
+            return BoundedLineReader.readLine(in, 5_000_000);
         } catch(Exception e) {
             return null;
         } finally {
