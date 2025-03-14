@@ -15,6 +15,8 @@
  */
 package org.globus.axis.example;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.axis.client.Call;
 import org.apache.axis.client.Service;
 import org.apache.axis.encoding.XMLType;
@@ -88,7 +90,7 @@ public class Client {
 	    call.setProperty(GSIConstants.GSI_MODE,
 			     GSIConstants.GSI_MODE_LIMITED_DELEG);
 
-            call.setTargetEndpointAddress( new URL(endpointURL) );
+            call.setTargetEndpointAddress( Urls.create(endpointURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) );
 
 
 	    call.setOperationName(new QName("MyService",

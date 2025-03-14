@@ -14,6 +14,8 @@
  */
 package org.globus.net;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
@@ -209,7 +211,7 @@ public abstract class BaseServer implements Runnable {
     public String getHost() {
 	String host = Util.getLocalHostAddress();
 	try {
-	    URL u = new URL("http", host, 80, "/");
+	    URL u = Urls.create("http", host, 80, "/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 	    return u.getHost();
 	} catch (MalformedURLException e) {
 	    return host;
