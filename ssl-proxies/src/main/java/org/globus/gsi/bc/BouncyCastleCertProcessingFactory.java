@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.bc;
 
+import java.security.SecureRandom;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.globus.gsi.util.CertificateLoadUtil;
 import org.globus.gsi.util.ProxyCertificateUtil;
@@ -361,7 +362,7 @@ public class BouncyCastleCertProcessingFactory {
 
         if (ProxyCertificateUtil.isGsi3Proxy(GSIConstants.CertificateType.get(proxyType)) ||
             ProxyCertificateUtil.isGsi4Proxy(GSIConstants.CertificateType.get(proxyType))) {
-            Random rand = new Random();
+            Random rand = new SecureRandom();
             delegDN = String.valueOf(Math.abs(rand.nextInt()));
             serialNum = new BigInteger(20, rand);
 
@@ -765,7 +766,7 @@ public class BouncyCastleCertProcessingFactory {
         String delegDN = null;
 
         if (ProxyCertificateUtil.isGsi3Proxy(certType) || ProxyCertificateUtil.isGsi4Proxy(certType)) {
-            Random rand = new Random();
+            Random rand = new SecureRandom();
             delegDN = String.valueOf(Math.abs(rand.nextInt()));
             serialNum = new BigInteger(20, rand);
 
