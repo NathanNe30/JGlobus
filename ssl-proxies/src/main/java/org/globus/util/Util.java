@@ -14,6 +14,7 @@
  */
 package org.globus.util;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -101,7 +102,7 @@ public class Util {
                                        file };
         Process process = null;
         try {
-            process = runtime.exec(cmd, null);
+            process = SystemCommand.runCommand(runtime, cmd, null);
             return (process.waitFor() == 0) ? true : false;
         } catch(Exception e) {
             return false;
