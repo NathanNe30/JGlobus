@@ -14,6 +14,7 @@
  */
 package org.globus.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.IOException;
 import java.io.File;
 import java.io.BufferedReader;
@@ -151,7 +152,7 @@ public class ConfigUtil {
             process = runTime.exec(exec + " -u");
             buffInReader = new BufferedReader
                 ( new InputStreamReader(process.getInputStream()) );
-            while ((s = buffInReader.readLine()) != null) {
+            while ((s = BoundedLineReader.readLine(buffInReader, 5_000_000)) != null) {
                 output.append(s);
             }
             exitValue = process.waitFor();

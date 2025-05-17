@@ -15,6 +15,7 @@
  */
 package org.globus.axis.transport.commons.tests;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
@@ -316,7 +317,7 @@ public class CommonsHttpConnectionManagerTest extends TestCase {
                     String line = null;
 
 
-                    while( (line = reader.readLine()) != null ) {
+                    while( (line = BoundedLineReader.readLine(reader, 5_000_000)) != null ) {
                         if (line.length() == 0) {
                             break;
                         }
@@ -326,7 +327,7 @@ public class CommonsHttpConnectionManagerTest extends TestCase {
                     out.write("HTTP/1.1 100 Continue\r\n\r\n".getBytes());
                     out.flush();
 
-                    while( (line = reader.readLine()) != null ) {
+                    while( (line = BoundedLineReader.readLine(reader, 5_000_000)) != null ) {
                         if (line.length() == 0) {
                             break;
                         }
