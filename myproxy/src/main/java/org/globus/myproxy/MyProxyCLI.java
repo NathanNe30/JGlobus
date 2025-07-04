@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.security.PrivateKey;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
@@ -694,7 +695,7 @@ public class MyProxyCLI {
             if (outputFile != null) {
                 f = new File(outputFile);
             } else {
-                f = File.createTempFile("x509up_", ".pem", new File("."));
+                f = Files.createTempFile(new File(".").toPath(), "x509up_", ".pem").toFile();
             }
             String path = f.getPath(); //f.getAbsolutePath();
 

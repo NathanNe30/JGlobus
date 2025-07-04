@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -52,7 +53,7 @@ public class FileSetupUtil {
     public void copyFileToTemp(File dir) throws IOException {
         ClassLoader loader = FileSetupUtil.class.getClassLoader();
         int index = filename.lastIndexOf('.');
-        this.tempFile = File.createTempFile("globusSecurityTest", filename.substring(index, filename.length()), dir);
+        this.tempFile = Files.createTempFile(dir.toPath(), "globusSecurityTest", filename.substring(index, filename.length())).toFile();
         InputStream in = loader.getResourceAsStream(this.filename);
         FileWriter writer = new FileWriter(this.tempFile);
         try {

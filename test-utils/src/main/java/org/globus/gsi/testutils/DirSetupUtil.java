@@ -14,6 +14,7 @@
  */
 package org.globus.gsi.testutils;
 
+import java.nio.file.Files;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class DirSetupUtil {
     public void createTempDirectory() throws IOException {
 
         this.tempDir =
-                File.createTempFile("temp", Long.toString(System.nanoTime()));
+                Files.createTempFile("temp", Long.toString(System.nanoTime())).toFile();
 
         if (!(tempDir.delete())) {
             throw new IOException(
